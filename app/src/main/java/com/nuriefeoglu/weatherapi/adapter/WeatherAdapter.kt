@@ -2,15 +2,11 @@ package com.nuriefeoglu.weatherapi.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import com.nuriefeoglu.weatherapi.R
+import com.nuriefeoglu.weatherapi.databinding.ItemWeatherDayBinding
 import com.nuriefeoglu.weatherapi.network.WeatherResponseResult
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_weather_day.*
 
 class WeatherAdapter(private val listener: (WeatherResponseResult?) -> Unit) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
@@ -27,10 +23,9 @@ class WeatherAdapter(private val listener: (WeatherResponseResult?) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
-        return WeatherViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_weather_day, parent, false)
-        )
+        val binding = ItemWeatherDayBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return WeatherViewHolder(binding)
     }
 
     override fun getItemCount() = weatherData.size
@@ -45,23 +40,20 @@ class WeatherAdapter(private val listener: (WeatherResponseResult?) -> Unit) :
         }
     }
 
-    class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), LayoutContainer {
-
+    class WeatherViewHolder(private val binding: ItemWeatherDayBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model: WeatherResponseResult) {
-
-            txtDay?.text = model.day
-            txtDegree?.text = model.getDegreeText()
-            txtDesc?.text = model.description
+            print("***MODEL -> $model")
+            binding.txtDay.text = model.day
+            binding.txtDegree.text = model.getDegreeText()
+            binding.txtDesc.text = model.description
 
             GlideToVectorYou.init()
-                .with(imgWeather.context)
-                .load(Uri.parse(model.icon), imgWeather)
+                .with(binding.imgWeather.context)
+                .load(Uri.parse(model.icon), binding.imgWeather)
 
         }
-
-        override val containerView: View?
-            get() = itemView
 
     }
 
