@@ -9,6 +9,7 @@ data class WeatherResponse(
     val city: String?,
     val result: List<WeatherResponseResult?>?
 )
+
 @Parcelize
 data class WeatherResponseResult(
     val date: String?,
@@ -20,13 +21,15 @@ data class WeatherResponseResult(
     val max: String?,
     val status: String?,
     val humidity: String?
-):Parcelable {
+) : Parcelable {
     fun getDegreeText(): String {
         return "${degree?.toFloatOrNull()?.roundToInt()}°C"
     }
-    fun getDegreeMinText(): String{
+
+    fun getDegreeMinText(): String {
         return "${min?.toFloatOrNull()?.roundToInt()}°C"
     }
+
     fun getHumidityText(): String {
         return "Humidity ${humidity?.toFloatOrNull()?.roundToInt()}%"
     }

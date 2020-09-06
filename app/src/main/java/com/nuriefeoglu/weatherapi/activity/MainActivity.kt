@@ -1,24 +1,27 @@
 package com.nuriefeoglu.weatherapi.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.nuriefeoglu.weatherapi.R
+import androidx.appcompat.app.AppCompatActivity
+import com.nuriefeoglu.weatherapi.databinding.ActivityMainBinding
 import com.nuriefeoglu.weatherapi.helper.Helper
 import com.nuriefeoglu.weatherapi.navigation.NavigationHelper
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+
+    private var binding: ActivityMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
-        btnSearchCity.setOnClickListener {
-            val city = edtCity?.text?.toString()
-            if (!city.isNullOrBlank()){
-                NavigationHelper.navigateToWeatherResultActivity(this,city)
+        binding?.btnSearchCity?.setOnClickListener {
+            val city = binding?.edtCity?.text?.toString()
+            if (!city.isNullOrBlank()) {
+                NavigationHelper.navigateToWeatherResultActivity(this, city)
             } else {
-                Helper.showToast(this,"Şehir adı boş olamaz")
+                Helper.showToast(this, "Şehir adı boş olamaz")
             }
         }
     }
